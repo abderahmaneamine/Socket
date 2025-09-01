@@ -1,0 +1,45 @@
+Ce code représente un serveur qui joue à un jeu de devinette avec des clients. Voici une explication détaillée du code :
+
+1. Importations :
+   - `java.io.*` : Importe les classes pour les entrées/sorties.
+   - `java.net.*` : Importe les classes pour les opérations réseau.
+   - `java.util.*` : Importe les classes utilitaires, y compris `Random` pour générer des nombres aléatoires.
+
+2. Déclaration de classe `Serveur` :
+   - La classe `Serveur` contient les méthodes principales du serveur de jeu.
+
+3. Variable `gameOver` :
+   - `private static boolean gameOver = false;` : Variable statique pour suivre l'état du jeu. Elle est initialisée à `false`, ce qui signifie que le jeu n'est pas terminé.
+
+4. Méthode `main` :
+   - `public static void main(String[] args)` : La méthode principale qui est exécutée lorsque le programme est lancé.
+   - Le code commence par créer un `ServerSocket` qui écoute sur le port `8888`.
+   - Un message est affiché pour indiquer que le serveur est à l'écoute.
+   - Un objet `Random` est créé pour générer un nombre aléatoire entre 1 et 100, inclus.
+   - Le nombre aléatoire est affiché.
+   - Une boucle infinie est initiée pour attendre les connexions des clients.
+   - Lorsqu'un client se connecte, un message est affiché et un nouveau thread est créé pour traiter la demande du client.
+   - Un compteur `j` est utilisé pour suivre le nombre de clients connectés.
+
+5. Méthode `setGameOver` :
+   - `public static synchronized void setGameOver()` : Méthode synchronisée pour définir l'état de fin de jeu (`gameOver`) à `true`.
+
+6. Méthode `isGameOver` :
+   - `public static synchronized boolean isGameOver()` : Méthode synchronisée pour vérifier si le jeu est terminé. Elle retourne la valeur de `gameOver`.
+
+7. Classe `Service` :
+   - La classe `Service` implémente l'interface `Runnable` pour pouvoir être exécutée en tant que thread.
+   - Elle contient la logique de traitement des demandes des clients.
+
+8. Constructeur de `Service` :
+   - `public Service(Socket clientSocket, int nombre)` : Le constructeur qui prend en paramètres le `Socket` du client et le nombre à deviner.
+
+9. Méthode `run` :
+   - `public void run()` : La méthode qui est exécutée lorsque le thread est démarré.
+   - Un `BufferedReader` est créé pour lire les données entrantes du client.
+   - Un `PrintWriter` est créé pour envoyer des données au client.
+   - Un message initial demandant au client d'entrer un nombre entre 1 et 100 est envoyé.
+   - Une boucle infinie est initiée pour lire les réponses du client.
+   - La ligne lue est stockée dans la variable `ligne`.
+   - Un bloc synchronisé sur la classe `Serveur` est utilisé pour vérifier si le jeu est terminé. Si c'est le cas, un message "Game Over" est envoyé au client et la boucle est interrompue.
+   - La ligne lue est convertie
